@@ -113,7 +113,7 @@ if (isset($_POST['submit'])) {
                 $errorMsg = "אירעה טעות בהעלאת התמונה."; 
             }       
         } else{ 
-            $errorMsg = 'ניתן להעלות רק את הפורמטים הבאים: JPG, JPEG, ו- PNG.'; 
+            $errorMsg = 'ניתן להעלות רק את הפורמטים הבאים: JPG, JPEG, JFIF, ו- PNG.'; 
         } 
     }
 }
