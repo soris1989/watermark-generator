@@ -103,7 +103,7 @@ if (isset($_POST['submit'])) {
                 if (file_exists($targetImagePath)){ 
                     $successMsg = "התמונה עם סימני המים נוצרה בהצלחה."; 
                 } else { 
-                    $errorMsg = "תהליך יירת התמונה כשל, נא נסה שנית."; 
+                    $errorMsg = "תהליך יצירת התמונה כשל, נא נסה שנית."; 
                 }  
 
                 if (file_exists($targetWatermarkPath)) {
