@@ -1,0 +1,71 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "d46fa7e709f714fce2fa4338f20bd244",
+    "packages": [
+        {
+            "name": "ajaxray/php-watermark",
+            "version": "v0.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ajaxray/php-watermark.git",
+                "reference": "42e93d87fde4c534b574d5d9ab4ba472b1798d9f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ajaxray/php-watermark/zipball/42e93d87fde4c534b574d5d9ab4ba472b1798d9f",
+                "reference": "42e93d87fde4c534b574d5d9ab4ba472b1798d9f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6 <8"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7 || ^6.5",
+                "satooshi/php-coveralls": "v2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ajaxray\\PHPWatermark\\": "src/Ajaxray/PHPWatermark/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anis Uddin Ahmad",
+                    "email": "anis.programmer@gmail.com"
+                }
+            ],
+            "description": "Add text or image watermark on images.",
+            "homepage": "http://github.com/ajaxray/php-watermark",
+            "keywords": [
+                "image",
+                "image-manipulation",
+                "imagemagick-watermark",
+                "imagemagick-wrapper",
+                "watermark"
+            ],
+            "support": {
+                "issues": "https://github.com/ajaxray/php-watermark/issues",
+                "source": "https://github.com/ajaxray/php-watermark/tree/v0.1.2"
+            },
+            "time": "2021-09-15T18:25:27+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}
