@@ -1,44 +1,5 @@
 <?php
 
-function styled_var_dump($data) { 
-    echo '<pre>';
-    var_dump($data);
-    echo '</pre>';  
-}
-
-function create_dir($dir) {
-    if (!is_dir($dir) && !mkdir($dir, 0777, true)){
-        exit("Error creating folder $dir");
-    }
-}
-
-function get_ext($name) {
-    $n = strrpos($name, '.');
-    return ($n === false) ? '' : substr($name, $n+1);
-}
-
-function get_filename_without_ext($filename) {
-    return preg_replace("/\.[^.]+$/", "", $filename);
-}
-
-function createImageFrom($type, $targetPath) {
-    switch($type){ 
-        case 'jpg':
-            $im = imagecreatefromjpeg($targetPath); 
-            break; 
-        case 'jpeg': 
-            $im = imagecreatefromjpeg($targetPath); 
-            break; 
-        case 'png': 
-            $im = imagecreatefrompng($targetPath); 
-            break; 
-        default: 
-            $im = imagecreatefromjpeg($targetPath); 
-    } 
-
-    return $im;
-}
-
 // post form
 if (isset($_POST['submit'])) {
     $targetDir = dirname(__DIR__) . '/uploads/';  
@@ -101,31 +62,33 @@ if (isset($_POST['submit'])) {
                 imagedestroy($im);
 
                 if (file_exists($targetImagePath)){
-                    $mime = $upload_image['type'];
-                    $quoted = sprintf('"%s"', addcslashes($imageName, '"\\'));
+                    try {
+                        $mime = $upload_image['type'];
+                        $quoted = sprintf('"%s"', addcslashes($imageName, '"\\'));
 
-                    header('Pragma: public');  // required
-                    header('Expires: 0');  // no cache
-                    header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-                    header('Cache-Control: private', false);
-                    header('Content-Type: ' . $mime);
-                    header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime($targetImagePath)) . ' GMT');
-                    header('Content-disposition: attachment; filename=' . $quoted);
-                    header("Content-Transfer-Encoding:  binary");
-                    header('Content-Length: ' . filesize($targetImagePath)); // provide file size
-                    header('Connection: close');
-                    readfile($targetImagePath);
-                    flush();
+                        header('Pragma: public');  // required
+                        header('Expires: 0');  // no cache
+                        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+                        header('Cache-Control: private', false);
+                        header('Content-Type: ' . $mime);
+                        header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime($targetImagePath)) . ' GMT');
+                        header('Content-disposition: attachment; filename=' . $quoted);
+                        header("Content-Transfer-Encoding:  binary");
+                        header('Content-Length: ' . filesize($targetImagePath)); // provide file size
+                        header('Connection: close');
+                        readfile($targetImagePath);
+                        flush();
+                    } catch (\Throwable $th) {
+                        $errorMsg = $th->getMessage(); 
+                    } finally {
+                        if (file_exists($targetImagePath)) {
+                            unlink($targetImagePath);
+                        }
 
-                    if (file_exists($targetImagePath)) {
-                        unlink($targetImagePath);
+                        if (file_exists($targetWatermarkPath)) {
+                            unlink($targetWatermarkPath);
+                        }
                     }
-
-                    if (file_exists($targetWatermarkPath)) {
-                        unlink($targetWatermarkPath);
-                    }
-
-                    $successMsg = "התמונה עם סימני המים נוצרה בהצלחה."; 
                 } else { 
                     $errorMsg = "תהליך יצירת התמונה כשל, נא נסה שנית."; 
                 }  

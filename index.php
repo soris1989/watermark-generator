@@ -3,7 +3,10 @@ session_start();
 ob_start();
 
 require_once __DIR__ . '/./vendor/autoload.php';
+require_once __DIR__ . '/./inc/utils.php';
 require_once __DIR__ . '/./inc/intro.php';
+
+$successMsg = getFlash(FLASH_MESSAGE);
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +28,7 @@ require_once __DIR__ . '/./inc/intro.php';
 
                     <?php if (isset($errorMsg) && $errorMsg) { ?>
                         <div class="alert alert-danger"><?= $errorMsg ?></div>
-                    <?php } else if (isset($successMsg) && $successMsg) { ?>
+                    <?php } else if ($successMsg) { ?>
                         <div class="alert alert-success"><?= $successMsg ?></div>
                     <?php } ?>
                     <div class="mb-3">
