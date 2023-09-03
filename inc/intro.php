@@ -56,14 +56,14 @@ if (isset($_POST['submit'])) {
     }
     else {
         // image upload path 
-        $fileName = basename($upload_image["name"]);  
-        $fileName = get_filename_without_ext($fileName) . '_' . time() . '.' . get_ext($fileName);
-        $targetImagePath = $targetDir . $fileName; 
+        $imageName = basename($upload_image["name"]);  
+        $imageNameUq = get_filename_without_ext($imageName) . '_' . time() . '.' . get_ext($imageName);
+        $targetImagePath = $targetDir . $imageNameUq; 
         $imageType = pathinfo($targetImagePath, PATHINFO_EXTENSION);
 
         // watermark upload path
-        $fileName = basename($upload_watermark["name"]); 
-        $targetWatermarkPath = $targetDir . $fileName; 
+        $wtName = basename($upload_watermark["name"]); 
+        $targetWatermarkPath = $targetDir . $wtName; 
         $watermarkType = pathinfo($targetWatermarkPath, PATHINFO_EXTENSION);
 
         // Allow certain file formats 
@@ -100,15 +100,27 @@ if (isset($_POST['submit'])) {
                 imagepng($im, $targetImagePath); 
                 imagedestroy($im);
 
-                if (file_exists($targetImagePath)){ 
+                if (file_exists($targetImagePath)){
+                    $mime = $upload_image['type'];
+                    $size = filesize($upload_image);
+
+                    header('Content-Description: File Transfer');
+                    header('Content-Type: ' . $mime);
+                    header('Content-Disposition: attachment; filename="' . $imageName . '"');
+                    header('Content-Transfer-Encoding: binary');
+                    header('Expires: 0');
+                    header('Pragma: no-cache');
+                    header('Content-Length: ' . $size);
+                    // exit;
+
+                    if (file_exists($targetWatermarkPath)) {
+                        unlink($targetWatermarkPath);
+                    }
+
                     $successMsg = "התמונה עם סימני המים נוצרה בהצלחה."; 
                 } else { 
                     $errorMsg = "תהליך יצירת התמונה כשל, נא נסה שנית."; 
                 }  
-
-                if (file_exists($targetWatermarkPath)) {
-                    unlink($targetWatermarkPath);
-                }
             } else { 
                 $errorMsg = "אירעה טעות בהעלאת התמונה."; 
             }       
