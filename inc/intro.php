@@ -48,11 +48,11 @@ if (isset($_POST['submit'])) {
     $upload_watermark = $_FILES['upload_watermark'];
 
     if ($upload_image['error'] === 4 || $upload_watermark['error'] == 4) {
-        $error = 'תמונה לא הועלתה או סימן מים לא הועלה.';
+        $errorMsg = 'תמונה לא הועלתה או סימן מים לא הועלה.';
     }
     if ($upload_image['error'] !== 0 || $upload_watermark['error'] !== 0)
     {
-        $error = 'תמונה לא הועלתה או סימן מים לא הועלה.';
+        $errorMsg = 'תמונה לא הועלתה או סימן מים לא הועלה.';
     }
     else {
         // image upload path 
