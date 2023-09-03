@@ -52,3 +52,23 @@ function getFlash() {
     }
     return null;
 }
+
+function redirect($url) {
+    header('Location: ' . $url);
+    exit();
+}
+
+function download($fileName, $filePath, $mime) {
+    header('Pragma: public');  // required
+    header('Expires: 0');  // no cache
+    header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+    header('Cache-Control: private', false);
+    header('Content-Type: ' . $mime);
+    header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime($filePath)) . ' GMT');
+    header('Content-disposition: attachment; filename=' . $fileName);
+    header("Content-Transfer-Encoding:  binary");
+    header('Content-Length: ' . filesize($filePath)); // provide file size
+    header('Connection: close');
+    readfile($filePath);
+    flush();
+}

@@ -66,18 +66,8 @@ if (isset($_POST['submit'])) {
                         $mime = $upload_image['type'];
                         $quoted = sprintf('"%s"', addcslashes($imageName, '"\\'));
 
-                        header('Pragma: public');  // required
-                        header('Expires: 0');  // no cache
-                        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-                        header('Cache-Control: private', false);
-                        header('Content-Type: ' . $mime);
-                        header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime($targetImagePath)) . ' GMT');
-                        header('Content-disposition: attachment; filename=' . $quoted);
-                        header("Content-Transfer-Encoding:  binary");
-                        header('Content-Length: ' . filesize($targetImagePath)); // provide file size
-                        header('Connection: close');
-                        readfile($targetImagePath);
-                        flush();
+                        // download file in browser
+                        download($quoted, $targetImagePath, $mime);
                     } catch (\Throwable $th) {
                         $errorMsg = $th->getMessage(); 
                     } finally {
