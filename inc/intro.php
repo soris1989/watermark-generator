@@ -102,16 +102,24 @@ if (isset($_POST['submit'])) {
 
                 if (file_exists($targetImagePath)){
                     $mime = $upload_image['type'];
-                    $size = filesize($upload_image);
+                    $quoted = sprintf('"%s"', addcslashes($imageName, '"\\'));
 
-                    header('Content-Description: File Transfer');
+                    header('Pragma: public');  // required
+                    header('Expires: 0');  // no cache
+                    header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+                    header('Cache-Control: private', false);
                     header('Content-Type: ' . $mime);
-                    header('Content-Disposition: attachment; filename="' . $imageName . '"');
-                    header('Content-Transfer-Encoding: binary');
-                    header('Expires: 0');
-                    header('Pragma: no-cache');
-                    header('Content-Length: ' . $size);
-                    // exit;
+                    header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime($targetImagePath)) . ' GMT');
+                    header('Content-disposition: attachment; filename=' . $quoted);
+                    header("Content-Transfer-Encoding:  binary");
+                    header('Content-Length: ' . filesize($targetImagePath)); // provide file size
+                    header('Connection: close');
+                    readfile($targetImagePath);
+                    flush();
+
+                    if (file_exists($targetImagePath)) {
+                        unlink($targetImagePath);
+                    }
 
                     if (file_exists($targetWatermarkPath)) {
                         unlink($targetWatermarkPath);
